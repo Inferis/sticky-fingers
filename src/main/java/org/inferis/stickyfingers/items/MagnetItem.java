@@ -30,7 +30,6 @@ public class MagnetItem extends Item {
         tooltip.add(getMode(stack).toText());
     }
 
-    @Environment(EnvType.CLIENT)
     public void toggleMode(ItemStack stack) {
         withTag(stack, nbt -> {
             nbt.putBoolean(NBT_MAGNET_MODE, !getMode(stack).toBoolean());
@@ -38,7 +37,6 @@ public class MagnetItem extends Item {
         });
     }
 
-    @Environment(EnvType.CLIENT)
     public void setMode(ItemStack stack, Mode mode) {
         withTag(stack, nbt -> {
             nbt.putBoolean(NBT_MAGNET_MODE, mode.toBoolean());
@@ -46,7 +44,6 @@ public class MagnetItem extends Item {
         });
     }
 
-    @Environment(EnvType.CLIENT)
     public Mode getMode(ItemStack stack) {
         return withTag(stack, nbt -> {
             return nbt.getBoolean(NBT_MAGNET_MODE) ? Mode.ACTIVE : Mode.INACTIVE;
