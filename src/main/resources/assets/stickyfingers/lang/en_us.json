@@ -1,0 +1,9 @@
+{
+    "item.stickyfingers.magnet": "Magnet",
+
+    "category.stickyfingers.title": "Sticky Fingers",
+    "key.stickyfingers.mode": "Activate/deactivate Magnet",
+
+    "tooltip.stickyfingers.magnet.active": "Active",
+    "tooltip.stickyfingers.magnet.inactive": "Inactive"
+}
