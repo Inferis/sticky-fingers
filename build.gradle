@@ -101,9 +101,9 @@ modrinth {
     token = br.readLine(); 
 
     projectId = 'mIp86VuA' // The ID of your Modrinth project. Slugs will not work.
-    versionNumber = '0.1.0' // The (preferably SemVer) version of the mod. If not specified, it'll use the `version` declaration
-    versionName = '0.1.0-1.21' // The version title. If not specified, it'll use the version number
-	changelog = 'Initial release (beta).'
+    versionNumber = '0.2.0' // The (preferably SemVer) version of the mod. If not specified, it'll use the `version` declaration
+    versionName = '0.2.0-1.21' // The version title. If not specified, it'll use the version number
+	changelog = 'Now picks up xb orbs too!'
     uploadFile = remapJar // Tells Minotaur to use the remapped jar
     gameVersions = ['1.21'] // An array of game versions the version supports
     loaders = ['fabric'] // Self-explanatory.

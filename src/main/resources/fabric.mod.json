@@ -3,13 +3,13 @@
 	"id": "sticky-fingers",
 	"version": "${version}",
 	"name": "Sticky Fingers",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "This mod introduces a magnet item. If you have this item in your inventory and it is activated, it will attract items up to 8 blocks away.",
 	"authors": [
-		"Me!"
+		"Inferis"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Inferis/sticky-fingers",
+		"sources": "https://github.com/Inferis/sticky-fingers"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/sticky-fingers/icon.png",
