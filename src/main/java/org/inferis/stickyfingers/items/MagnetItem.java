@@ -1,8 +1,5 @@
 package org.inferis.stickyfingers.items;
 
-import org.inferis.stickyfingers.StickyFingers;
-import org.inferis.stickyfingers.items.MagnetItem.Mode;
-
 import java.util.List;
 
 import net.fabricmc.api.EnvType;

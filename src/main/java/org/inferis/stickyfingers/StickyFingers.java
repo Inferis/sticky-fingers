@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import org.inferis.stickyfingers.items.MagnetItem;
 import org.inferis.stickyfingers.items.ModItems;
 import org.inferis.stickyfingers.items.MagnetItem.Mode;
+import org.inferis.stickyfingers.logic.EntityAttractor;
 import org.inferis.stickyfingers.networking.ModeChangePayload;
 
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class StickyFingers implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.registerItems();
-		EntityVacuum.registerEventListeners();
+		EntityAttractor.registerEventListeners();
 		registerPayloadAndReceiver();
 	}
 
@@ -35,7 +36,7 @@ public class StickyFingers implements ModInitializer {
 				MagnetItem.mutateMagnetsOfPlayer(context.player(), (stack, item, currentMode) -> {
 					item.setMode(stack, newMode);
 				});
-				EntityVacuum.tryVacuumAround(context.player());
+				EntityAttractor.tryAttractAround(context.player());
 			});
 		});
     }

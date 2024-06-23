@@ -1,4 +1,4 @@
-package org.inferis.stickyfingers;
+package org.inferis.stickyfingers.logic;
 
 import org.inferis.stickyfingers.items.MagnetItem;
 import org.inferis.stickyfingers.items.MagnetItem.Mode;
@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.world.World;
 
-public class EntityVacuum {
+public class EntityAttractor {
     public static int MAX_DISTANCE = 8;
 
     public static void registerEventListeners() {
@@ -40,36 +40,36 @@ public class EntityVacuum {
         // Try all players to see if they can pick up the item.
         // Once one of them succeeds, we're done.
         for (var player: world.getPlayers()) {
-            if (tryVacuum(entity, (PlayerEntity)player, true)) {
+            if (tryAttract(entity, (PlayerEntity)player, true)) {
                 return;
             }
         }
     }
 
-    public static void tryVacuumAround(PlayerEntity player) {
+    public static void tryAttractAround(PlayerEntity player) {
         // find item entities around the player first
         var itemEntities = player.getWorld().getEntitiesByClass(
             ItemEntity.class, 
-            player.getBoundingBox().expand(EntityVacuum.MAX_DISTANCE), 
+            player.getBoundingBox().expand(MAX_DISTANCE), 
             EntityPredicates.VALID_ENTITY
         );
         for (var itemEntity: itemEntities) {
-            EntityVacuum.tryVacuum(itemEntity, player, false);
+            tryAttract(itemEntity, player, false);
         }
 
         // then xp orbs
         var xpEntities = player.getWorld().getEntitiesByClass(
             ExperienceOrbEntity.class, 
-            player.getBoundingBox().expand(EntityVacuum.MAX_DISTANCE), 
+            player.getBoundingBox().expand(MAX_DISTANCE), 
             EntityPredicates.VALID_ENTITY
         );
         for (var xpEntity: xpEntities) {
-            EntityVacuum.tryVacuum(xpEntity, player, false);
+            tryAttract(xpEntity, player, false);
         }
     }
 
     // Try to vacuum/process one entity for a player.
-    public static boolean tryVacuum(Entity entity, PlayerEntity player, boolean resetDelay) {
+    public static boolean tryAttract(Entity entity, PlayerEntity player, boolean resetDelay) {
         var mode = MagnetItem.magnetModeOfPlayer(player);
         if (!player.isSpectator() && mode == Mode.ACTIVE) {
             var maxDistance = MAX_DISTANCE;
