@@ -23,6 +23,7 @@ public class ModItems {
             new MagnetItem(new Item.Settings())
         );
 
+        // Add magnet to "Tools" group.
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
 	        content.add(MAGNET);
         });

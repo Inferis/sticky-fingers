@@ -1,6 +1,7 @@
 package org.inferis.stickyfingers.items;
 
 import org.inferis.stickyfingers.StickyFingers;
+import org.inferis.stickyfingers.items.MagnetItem.Mode;
 
 import java.util.List;
 
@@ -32,15 +33,16 @@ public class MagnetItem extends Item {
 
     public void toggleMode(ItemStack stack) {
         withTag(stack, nbt -> {
-            nbt.putBoolean(NBT_MAGNET_MODE, !getMode(stack).toBoolean());
-            return null;
+            var mode = getMode(stack) == Mode.INACTIVE ? Mode.ACTIVE : Mode.INACTIVE;
+            nbt.putBoolean(NBT_MAGNET_MODE, mode.toBoolean());
+            return mode;
         });
     }
 
     public void setMode(ItemStack stack, Mode mode) {
         withTag(stack, nbt -> {
             nbt.putBoolean(NBT_MAGNET_MODE, mode.toBoolean());
-            return null;
+            return mode;
         });
     }
 
@@ -58,12 +60,10 @@ public class MagnetItem extends Item {
         if (!stack.isEmpty()) {
             NbtCompound nbt = stack.getOrDefault(DataComponentTypes.CUSTOM_DATA, NbtComponent.DEFAULT).copyNbt();
             if (nbt == null) {
-                StickyFingers.LOGGER.info("new nbt");
                 nbt = new NbtCompound();
             }
             if (!nbt.contains(NBT_MAGNET_MODE)) {
                 // initialize default to inactive
-                StickyFingers.LOGGER.info("init nbt");
                 nbt.putBoolean(NBT_MAGNET_MODE, false);
             }
             T value = handler.handle(nbt);
@@ -80,7 +80,7 @@ public class MagnetItem extends Item {
     }
     
     public interface IMagnetMutator {
-        void mutate(ItemStack stack, MagnetItem item);
+        void mutate(ItemStack stack, MagnetItem item, Mode mode);
     }
 
     public static Mode magnetModeOfPlayer(PlayerEntity player) {
@@ -88,18 +88,29 @@ public class MagnetItem extends Item {
     }
 
     public static Mode mutateMagnetsOfPlayer(PlayerEntity player, IMagnetMutator mutator) {
-        // find magnet
         var mode = Mode.INACTIVE;
         var inventory = player.getInventory();
+
+        // Get the current mode. This is the mode of the first magnet in the inventory.
         for (var slot=0; slot<inventory.size(); ++slot) {
             var stack = inventory.getStack(slot);
             if (stack.getItem() instanceof MagnetItem magnetItem) {
-                if (mutator != null) { 
-                    mutator.mutate(stack, magnetItem);
-                }
                 mode = magnetItem.getMode(stack);
+                break;
             }
         }
+
+        // If a mutator was specified, run it against all the magnets in the
+        // inventory, passing in the mode of the first one as a "source of truth".
+        if (mutator != null) {
+            for (var slot=0; slot<inventory.size(); ++slot) {
+                var stack = inventory.getStack(slot);
+                if (stack.getItem() instanceof MagnetItem magnetItem) { 
+                    mutator.mutate(stack, magnetItem, mode);
+                }
+            }
+        }
+
         return mode;
     }
 

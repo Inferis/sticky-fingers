@@ -21,6 +21,7 @@ public class EntityVacuum {
     }
 
     private static void onEntitySpawn(Entity entity, World world) {
+        // We only process server events
         if (world.isClient) {
             return;
         }
@@ -36,6 +37,8 @@ public class EntityVacuum {
             return;
         }
 
+        // Try all players to see if they can pick up the item.
+        // Once one of them succeeds, we're done.
         for (var player: world.getPlayers()) {
             if (tryVacuum(entity, (PlayerEntity)player, true)) {
                 return;
