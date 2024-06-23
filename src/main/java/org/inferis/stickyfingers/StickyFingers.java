@@ -35,6 +35,7 @@ public class StickyFingers implements ModInitializer {
 				MagnetItem.mutateMagnetsOfPlayer(context.player(), (stack, item, currentMode) -> {
 					item.setMode(stack, newMode);
 				});
+				EntityVacuum.tryVacuumAround(context.player());
 			});
 		});
     }
