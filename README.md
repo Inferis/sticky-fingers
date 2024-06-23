@@ -17,5 +17,9 @@ To toggle activation mode, you can press _M_ (configurable). All magnets in your
 
 ![Crafting Grid](https://cdn.modrinth.com/data/cached_images/804ee5c998a096bd5e03ebab16ce7f3c6fbf42c8.png)
 
+## Download
+
+You can find this mod on [Modrinth](https://modrinth.com/mod/sticky-fingers).
+
 ## Modpacks
 Feel free to use this mod in your modpack, but please drop me a note. ;)
