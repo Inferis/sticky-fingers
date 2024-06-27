@@ -3,6 +3,7 @@ package org.inferis.stickyfingers;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.text.Text;
 
 import org.inferis.stickyfingers.items.MagnetItem;
 import org.inferis.stickyfingers.items.ModItems;
@@ -37,6 +38,7 @@ public class StickyFingers implements ModInitializer {
 					item.setMode(stack, newMode);
 				});
 				EntityAttractor.tryAttractAround(context.player());
+				context.player().sendMessage(Text.of("Magnet " + (payload.isActive() ? "activated" : "deactivated") + "."), true);
 			});
 		});
     }
