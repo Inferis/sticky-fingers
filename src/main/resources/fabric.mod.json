@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "sticky-fingers",
-	"version": "${version}",
+	"version": "${version}+1.21.4",
 	"name": "Sticky Fingers",
 	"description": "This mod introduces a magnet item. If you have this item in your inventory and it is activated, it will attract items up to 8 blocks away.",
 	"authors": [
@@ -30,8 +30,8 @@
 		}
 	],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
+		"fabricloader": ">=0.16.9",
+		"minecraft": "1.21.4",
 		"java": ">=21",
 		"fabric-api": "*"
 	},
