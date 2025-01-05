@@ -75,10 +75,10 @@ public class EntityAttractor {
             var maxDistance = MAX_DISTANCE;
             // if the player is in range of the entity, pretend they ran
             // into it so they pick it up. For freshly spawned items, we also
-            // need to reset the 
+            // need to reset the pickup delay.
             if (player.isInRange(entity, maxDistance)) {
-                if (entity instanceof ItemEntity itemEntity) { 
-                    itemEntity.setPickupDelay(0);
+                if (resetDelay && entity instanceof ItemEntity itemEntity) { 
+                    itemEntity.setPickupDelay(1);
                 }
                 entity.onPlayerCollision(player);
                 return true;
