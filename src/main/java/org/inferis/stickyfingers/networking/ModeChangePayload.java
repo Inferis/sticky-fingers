@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 
 public record ModeChangePayload(boolean isActive) implements CustomPayload {
     public static final CustomPayload.Id<ModeChangePayload> ID = new CustomPayload.Id<>(Identifier.of("stickyfingers:mode_change"));
-    public static final PacketCodec<RegistryByteBuf, ModeChangePayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOLEAN, ModeChangePayload::isActive, ModeChangePayload::new);
+    public static final PacketCodec<RegistryByteBuf, ModeChangePayload> CODEC = PacketCodec.tuple(PacketCodecs.BOOL, ModeChangePayload::isActive, ModeChangePayload::new);
 
     @Override
     public Id<? extends CustomPayload> getId() {

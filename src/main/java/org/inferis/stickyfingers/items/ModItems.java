@@ -30,7 +30,7 @@ public class ModItems {
         MAGNET = registerItem(
             MagnetItem.IDENTIFIER, 
             key -> {
-                return new MagnetItem(new Item.Settings().registryKey(key));
+                return new MagnetItem(new Item.Settings());
             }
         );
 
