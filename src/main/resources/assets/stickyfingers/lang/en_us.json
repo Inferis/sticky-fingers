@@ -5,5 +5,7 @@
     "key.stickyfingers.mode": "Activate/deactivate Magnet",
 
     "tooltip.stickyfingers.magnet.active": "Active",
-    "tooltip.stickyfingers.magnet.inactive": "Inactive"
+    "tooltip.stickyfingers.magnet.inactive": "Inactive",
+
+    "trinkets.slot.stickyfingers.magnet": "Magnet"
 }

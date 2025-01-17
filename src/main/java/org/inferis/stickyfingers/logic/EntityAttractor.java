@@ -71,7 +71,7 @@ public class EntityAttractor {
     // Try to vacuum/process one entity for a player.
     public static boolean tryAttract(Entity entity, PlayerEntity player, boolean resetDelay) {
         var mode = MagnetItem.magnetModeOfPlayer(player);
-        if (!player.isSpectator() && mode == Mode.ACTIVE) {
+        if (!player.isSpectator() && mode.isPresent() && mode.get() == Mode.ACTIVE) {
             var maxDistance = MAX_DISTANCE;
             // if the player is in range of the entity, pretend they ran
             // into it so they pick it up. For freshly spawned items, we also

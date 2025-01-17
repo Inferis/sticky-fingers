@@ -33,17 +33,20 @@ public class StickyFingersClient implements ClientModInitializer {
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (magnetModeKeyBinding.wasPressed()) {
 				// Toggle the mode for all magnets
-				var newMode = MagnetItem.magnetModeOfPlayer(client.player) == Mode.ACTIVE ? Mode.INACTIVE : Mode.ACTIVE;
-				MagnetItem.mutateMagnetsOfPlayer(client.player, (stack, item, currentMode) -> {
-					item.setMode(stack, newMode);
-				});
-
-				// Since the keypress happens client side, we have to get the mode
-				// change over to the server. So if that happens, get the mode of 
-				// any of the magnets (in practice it will be the last one in the 
-				// inventory). Then send that mode to the server so it can update
-				// its status. 
-				ClientPlayNetworking.send(new ModeChangePayload(newMode == Mode.ACTIVE));
+				var mode = MagnetItem.magnetModeOfPlayer(client.player);
+				if (mode.isPresent()) {
+					var newMode = mode.get() == Mode.ACTIVE ? Mode.INACTIVE : Mode.ACTIVE;
+					MagnetItem.mutateMagnetsOfPlayer(client.player, (stack, item, currentMode) -> {
+						item.setMode(stack, newMode);
+					});
+	
+					// Since the keypress happens client side, we have to get the mode
+					// change over to the server. So if that happens, get the mode of 
+					// any of the magnets (in practice it will be the last one in the 
+					// inventory). Then send that mode to the server so it can update
+					// its status. 
+					ClientPlayNetworking.send(new ModeChangePayload(newMode == Mode.ACTIVE));
+				}
 			}
 		});
 	}

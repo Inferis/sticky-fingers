@@ -1,6 +1,7 @@
 package org.inferis.stickyfingers.items;
 
 import java.util.List;
+import java.util.Optional;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -13,6 +14,8 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 
 public class MagnetItem extends Item {
     public static String IDENTIFIER = "magnet";
@@ -80,35 +83,65 @@ public class MagnetItem extends Item {
         void mutate(ItemStack stack, MagnetItem item, Mode mode);
     }
 
-    public static Mode magnetModeOfPlayer(PlayerEntity player) {
+    public static Optional<Mode> magnetModeOfPlayer(PlayerEntity player) {
         return mutateMagnetsOfPlayer(player, null);
     }
 
-    public static Mode mutateMagnetsOfPlayer(PlayerEntity player, IMagnetMutator mutator) {
+    public static Optional<Mode> mutateMagnetsOfPlayer(PlayerEntity player, IMagnetMutator mutator) {
         var mode = Mode.INACTIVE;
         var inventory = player.getInventory();
+        var found = false;
 
         // Get the current mode. This is the mode of the first magnet in the inventory.
         for (var slot=0; slot<inventory.size(); ++slot) {
             var stack = inventory.getStack(slot);
             if (stack.getItem() instanceof MagnetItem magnetItem) {
                 mode = magnetItem.getMode(stack);
+                found = true;
                 break;
             }
         }
 
-        // If a mutator was specified, run it against all the magnets in the
-        // inventory, passing in the mode of the first one as a "source of truth".
-        if (mutator != null) {
-            for (var slot=0; slot<inventory.size(); ++slot) {
-                var stack = inventory.getStack(slot);
-                if (stack.getItem() instanceof MagnetItem magnetItem) { 
-                    mutator.mutate(stack, magnetItem, mode);
+        // Guard against trinkets mod not being present
+        Optional<TrinketComponent> trinkets = Optional.empty();
+        ItemStack trinketItemStack = null;
+        try {
+            if (Class.forName("dev.emi.trinkets.api.TrinketsApi") != null) {
+                trinkets = TrinketsApi.getTrinketComponent(player);
+            }
+            if (trinkets.isPresent()) {
+                var equipped = trinkets.get().getEquipped(s -> s.getItem() instanceof MagnetItem);
+                if (!equipped.isEmpty()) {
+                    found = true;
+                    trinketItemStack = equipped.get(0).getRight();
+                    mode = ((MagnetItem)trinketItemStack.getItem()).getMode(trinketItemStack);
                 }
             }
+        } 
+        catch (ClassNotFoundException e) {
+            // ignore
         }
 
-        return mode;
+        if (found) {
+            // If a mutator was specified, run it against all the magnets in the
+            // inventory, passing in the mode of the first one as a "source of truth".
+            if (mutator != null) {
+                for (var slot=0; slot<inventory.size(); ++slot) {
+                    var stack = inventory.getStack(slot);
+                    if (stack.getItem() instanceof MagnetItem magnetItem) { 
+                        mutator.mutate(stack, magnetItem, mode);
+                    }
+                }
+
+                if (trinketItemStack != null) {
+                    var magnetItem = (MagnetItem)trinketItemStack.getItem();
+                    mutator.mutate(trinketItemStack, magnetItem, mode);
+                }
+            }
+            return Optional.of(mode);
+        }
+
+        return Optional.empty();
     }
 
     public enum Mode {
