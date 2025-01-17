@@ -11,8 +11,8 @@
 		"homepage": "https://github.com/Inferis/sticky-fingers",
 		"sources": "https://github.com/Inferis/sticky-fingers"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/sticky-fingers/icon.png",
+	"license": "MIT",
+	"icon": "assets/stickyfingers/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
