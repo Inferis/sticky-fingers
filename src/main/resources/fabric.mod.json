@@ -11,7 +11,7 @@
 		"homepage": "https://github.com/Inferis/sticky-fingers",
 		"sources": "https://github.com/Inferis/sticky-fingers"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/sticky-fingers/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -31,7 +31,7 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.16.10",
-		"minecraft": "1.21.1",
+		"minecraft": ["1.21", "1.21.1"],
 		"java": ">=21",
 		"fabric-api": "*"
 	},
